@@ -57,7 +57,7 @@ Before the first substantive action, establish:
 - **Objective:** preserve the active Codex goal if present; otherwise state a concise proposed objective.
 - **Done condition:** a concrete result plus an objective gate wherever possible.
 - **State file:** honor a user-named path. When private Goal Memory is configured, run its `locate --project <current-project> --slug <goal-slug>` and use the returned canonical STATE.md/evolution.json paths under the private repository. Otherwise use `.codex/goals/<goal-slug>/STATE.md` in the task workspace and record that cross-machine memory is unavailable. Never create two authoritative copies or reuse another objective’s state.
-- **Limits:** attempts, duration, cost/token budget when supplied, and approval boundaries.
+- **Limits:** attempts, duration, and approval boundaries.
 
 Create the state file from [the state template](references/state-template.md) when needed. At the start of each iteration, read it and the applicable project instructions. At the end, record only facts: action, outcome, evidence, blockers, and the next action.
 
