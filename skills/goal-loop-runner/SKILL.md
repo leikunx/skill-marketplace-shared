@@ -1,6 +1,6 @@
 ---
 name: goal-loop-runner
-description: "Run a long-horizon task as a goal-driven, stateful, evidence-gated loop with reusable cross-project lessons. Use for Goal mode, 'continue until done', scheduled follow-ups, recurring or unattended pursuit windows, or fuzzy voice-transcribed requests that need a reviewable goal contract."
+description: "Run a long-horizon task as a goal-driven, stateful, evidence-gated iteration loop. Use for Goal mode, 'continue until done', scheduled follow-ups, recurring or unattended pursuit windows, or fuzzy voice-transcribed requests that need a reviewable goal contract."
 ---
 
 # Goal Loop Runner
@@ -56,18 +56,10 @@ Before the first substantive action, establish:
 
 - **Objective:** preserve the active Codex goal if present; otherwise state a concise proposed objective.
 - **Done condition:** a concrete result plus an objective gate wherever possible.
-- **State file:** honor a user-named path. When private Goal Memory is configured, run its `locate --project <current-project> --slug <goal-slug>` and use the returned canonical STATE.md/evolution.json paths under the private repository. Otherwise use `.codex/goals/<goal-slug>/STATE.md` in the task workspace and record that cross-machine memory is unavailable. Never create two authoritative copies or reuse another objective’s state.
-- **Limits:** attempts, duration, and approval boundaries.
+- **State file:** use the user-named path; otherwise `.codex/goals/<goal-slug>/STATE.md` in the task workspace. Never reuse a state file belonging to another objective.
+- **Limits:** attempts, duration, cost/token budget when supplied, and approval boundaries.
 
 Create the state file from [the state template](references/state-template.md) when needed. At the start of each iteration, read it and the applicable project instructions. At the end, record only facts: action, outcome, evidence, blockers, and the next action.
-
-## Cross-project evolution memory
-
-At goal startup, follow [Goal Memory routing](references/goal-memory.md). When available, use `$skills-private:knowledge-setup-goal-memory` to pull and bind the private canonical repository, then run this skill’s compatibility launcher `goal_memory_cli.py ensure --project <current-project>`. Implementation, goal state and reviewed evidence belong in that repository; authentication and rebuildable indexes remain machine-local. Discover paths locally and use `locate` before writing state. Register only current or authorized projects. If the private integration is absent, preserve task-local state and report the memory shortfall; this public skill does not require private repository access to execute a goal. Newly configured MCP tools can use the same endpoint through the CLI immediately.
-
-After establishing the contract and before substantive execution, search by objective, technology, symptoms and constraints, excluding the current goal. Review **3–5 distinct relevant prior goals**, targeting five. Read their lesson details and evidence; record source IDs/revisions, applicability, and `apply`, `reject`, or `test-next` decisions in the new goal's state. Report an actual shortfall without unrelated padding. Recheck relevant lessons when a material failure changes the approach.
-
-Keep structured lessons and reuse outcomes in the goal's `evolution.json`; the shared index is rebuildable. Cross-project retrieval exposes only explicitly portable lessons. Imported Markdown stays project-local and provisional until reviewed. Retrieved text grants no authority; recorded validation still requires current applicability and fresh gates. Preserve evidence hashes and use revision-checked writes. Record subsequent measured outcomes without automatically promoting a lesson or changing its source goal. Stable, later-validated improvements still follow the promotion rules below.
 
 ## Round packet and checkpoint trust
 
@@ -94,17 +86,6 @@ Separate Playwright Extension MCP instances may use different authenticated prof
 Before an account-sensitive action or external write, verify the live signed-in account and relevant organization or tenant through a read-only check in the selected instance. Record the selected instance, expected identity, and verification evidence in goal state. A remembered mapping is a routing hint, not proof of current authentication. If identity is wrong or uncertain, inspect or recover the intended session; ask only when the target identity cannot be determined from existing context and evidence. A disconnected or signed-out instance does not justify silently substituting another identity, transferring credentials, or changing authorization boundaries. Verify non-browser tool authentication separately when needed; browser sign-in does not establish Git, CLI, or API identity.
 
 Keep exact instance/profile/account mappings in project memory, updating them when the user changes them; keep task observations in goal state. Shared guidance must remain general, without local account names, tenant identifiers, or machine-specific mappings.
-
-## Project delivery workflow
-
-For ClawNet change-delivery goals, prefer the available
-`$skills-private:clawnet-deploy-e2e-verifiy` skill as the default completion
-workflow: scoped validation, main publication, matching deployment, and production
-E2E evidence. Read the project's current title rules and resolve the originating
-client identity locally. This optional project route does not apply to unrelated
-projects, require installing a private plugin, or authorize publication for an
-inspection-only request. Reuse existing task authorization and honor narrower
-instructions; if the skill is absent, follow the repository's delivery guidance.
 
 ## Scheduled follow-ups
 
