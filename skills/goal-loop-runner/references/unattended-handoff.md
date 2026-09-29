@@ -14,7 +14,7 @@ Send one consolidated preflight message containing:
 
 Do not scatter clarification across multiple turns. If no material question remains, say so explicitly. Do not start scheduled unattended work until the user confirms the contract or explicitly tells you to begin.
 
-Use the skill's Scheduled follow-ups guidance to select the mechanism, optionally consulting `$skills-private:knowledge-codex-scheduled-followups` when available. A supported existing-chat schedule can provide minute-based follow-ups; an external CLI scheduler is an alternative. Once setup is authorized, verify a scheduler-launched run with the required tools and account before claiming monitoring is active. Preserve the user's requested browser mechanism; local browser access must be verified in the scheduled execution environment.
+Use the skill's Scheduled follow-ups guidance to select the mechanism, optionally consulting `$skills-shared:knowledge-codex-scheduled-followups` when available. A supported existing-chat schedule can provide minute-based follow-ups; an external CLI scheduler is an alternative. Once setup is authorized, verify a scheduler-launched run with the required tools and account before claiming monitoring is active. Preserve the user's requested browser mechanism; local browser access must be verified in the scheduled execution environment.
 
 ## During the window
 

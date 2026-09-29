@@ -1,0 +1,3 @@
+interface:
+  display_name: "Codex Scheduled Follow-ups"
+  short_description: "Explain minute-based Codex monitoring and scheduling"
