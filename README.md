@@ -22,6 +22,8 @@ Create and update skills through `$skills-private:skill-creator`. Except for use
 
 ## Use on a workstation
 
+`knowledge-computer-use` has moved with all bundled resources to [`knowledge-setup-macos-computer-use`](https://github.com/leikunx/skills-knowledge-setup/tree/main/skills/knowledge-setup-macos-computer-use) in the private setup repository. Invoke `$skills-knowledge-setup:knowledge-setup-macos-computer-use` after refreshing both plugins and starting a new session.
+
 Register both Git marketplaces once:
 
 ```powershell
