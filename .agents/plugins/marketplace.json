@@ -1,7 +1,7 @@
 {
-  "name": "skills-shared",
+  "name": "skill-marketplace-shared",
   "interface": {
-    "displayName": "Skills Shared"
+    "displayName": "Skill Marketplace Shared"
   },
   "plugins": [
     {
