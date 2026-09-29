@@ -2,12 +2,14 @@
 
 After changing this repository, validate the affected skill, review the exact diff, commit only the intended files, and push the resulting commit to its configured upstream before handoff. If the push cannot complete safely, report the exact blocker; do not claim the change is published.
 
-## Skill authoring location
+## Plugin and skill layout
 
-Knowledge/reference skills must use `knowledge-<topic>` as both their folder name and SKILL.md frontmatter name. Select the creator's `--kind knowledge` option for this purpose.
+The marketplace catalog is `.agents/plugins/marketplace.json`. Plugin sources live under `plugins/<plugin-name>/`, with `.codex-plugin/plugin.json` and `skills/<skill-name>/` inside each plugin. Maintain this marketplace's skills under `plugins/plugin-shared/skills/`; its installable ID is `plugin-shared@skill-marketplace-shared`.
 
-Use `$skills-private:skill-creator` for skill creation and updates. Except for user-established project skill locations, author new skills only in the editable `skills-private/skills/<name>` or `skills-shared/skills/<name>` Git repositories. Default to private; choose shared only when every instruction, example, reference and script is safe to publish publicly. Do not create other standalone user/project skills or edit installed plugin caches as source. Resolve checkout locations from the creator's repository configuration or explicit paths; missing checkouts require locating/cloning them, not falling back to `~/.codex/skills`.
+Use `$plugin-private:skill-creator` for skill creation and updates. Preserve existing skill names, bundled resources, and invocation policies. Knowledge/reference skills use `knowledge-<topic>` for their directory and frontmatter name; retain the established `goal-loop-runner` name.
 
-## Validation skill location
+## Sharing and validation
 
-Validation-focused skills, including `validation-*` and `knowledge-gcaa-run-tests`, are another user-established exception: maintain them in [`leikunx/m365-validator/.agents/skills`](https://github.com/leikunx/m365-validator/tree/main/.agents/skills) and invoke them without the former private/shared plugin qualifiers. Preserve all bundled resources; create their directories directly and validate with the private creator's `quick_validate.py`.
+Only publish instructions, examples, references, scripts, and assets that are safe to share publicly. Private work belongs in its owning private plugin or user-established project location. Do not author in installed caches or standalone user-skill directories, and do not commit credentials, browser profiles, private source material, or task runtime data.
+
+Validate affected skills with the private creator's `quick_validate.py`, check local links and plugin metadata, and run relevant existing helper tests when code changes. Preserve unrelated local work and publish only scoped verified changes.

@@ -1,38 +1,45 @@
 # Shared Codex Skills Marketplace
 
-The canonical Git marketplace for reusable Codex skills that contain no company-internal source, tenant details, service URLs, credentials, or customer information.
+Reusable Codex skills whose instructions, examples, references, and scripts are safe to share publicly. Private or team-specific workflows belong in the [private companion marketplace](https://github.com/leikunx/skill-marketplace-private).
 
-## Companion repository
+## Repository layout
 
-The team-only companion is [`leikunx/skills-private`](https://github.com/leikunx/skills-private). The installable plugin is `skills-shared`, declared in `.agents/plugins/marketplace.json`; its `.codex-plugin/` manifest and `skills/` directory are at this repository's root.
+The marketplace catalog is `.agents/plugins/marketplace.json`. It installs `plugin-shared` from `plugins/plugin-shared/`, matching the private marketplace's plugin layout:
 
-## Placement rule
-
-Put a skill here only when its instructions, examples, references, and scripts are safe to share publicly. Put it in the private companion repository when it mentions internal projects, systems, URLs, architecture, tenant behavior, or team-only operating procedures. When uncertain, use `private` first and make a reviewed public extraction later.
-
-Create and update skills through `$skills-private:skill-creator`. Except for user-established project skill locations (including validation skills in `m365-validator/.agents/skills/`), new sources belong in the two repositories' `skills/` directories, not standalone user/project locations or plugin caches. Knowledge/reference skills must be named `knowledge-<topic>`; the creator's `--kind knowledge` option supplies that prefix. Workstation activation and the portable creator tooling are maintained in the private companion.
-
-## Engineering review
-
-- `$skills-shared:architecture-health-review` produces architecture and production-readiness findings backed by executable receipts, counter-searches, and explicit blast-radius gates. It is read-only unless implementation is separately requested.
-
-## Browser validation
-
-`validation-web-loop` has moved, with its generator, tests, metadata and references, to [`leikunx/m365-validator/.agents/skills`](https://github.com/leikunx/m365-validator/tree/main/.agents/skills/validation-web-loop). The destination is private and requires access. Open that checkout and invoke `$validation-web-loop` without the former plugin qualifier. Refresh this plugin and start a new session after updating. Its scenario revision, browser ownership, evidence, and authorization rules are unchanged.
-
-## Use on a workstation
-
-`knowledge-computer-use` has moved with all bundled resources to [`knowledge-setup-macos-computer-use`](https://github.com/leikunx/skills-knowledge-setup/tree/main/skills/knowledge-setup-macos-computer-use) in the private setup repository. Invoke `$skills-knowledge-setup:knowledge-setup-macos-computer-use` after refreshing both plugins and starting a new session.
-
-Register both Git marketplaces once:
-
-```powershell
-codex plugin marketplace add leikunx/skills-shared --ref main
-codex plugin marketplace add leikunx/skills-private --ref main
-codex plugin add skills-shared@skills-shared
-codex plugin add skills-private@skills-private
+```text
+.agents/plugins/marketplace.json
+plugins/plugin-shared/
+  .codex-plugin/plugin.json
+  skills/
+    goal-loop-runner/
+    knowledge-codex-scheduled-followups/
 ```
 
-For later updates, run `codex-m365`. Before it refreshes and reinstalls the plugins, it safely commits and pushes non-ignored changes in this repository and its private companion. It blocks likely secret files, merge divergence, missing upstream branches, or failed Git operations rather than overwriting or force-pushing.
+## Skills
 
-New-machine installation and migration are owned by `$skills-private:knowledge-codex-m365-setup`; its [guide and scripts](https://github.com/leikunx/skills-private/tree/main/skills/knowledge-codex-m365-setup) live together in the private repository.
+- [goal-loop-runner](plugins/plugin-shared/skills/goal-loop-runner/SKILL.md): pursue goals through verified iterations with durable state and explicit stopping conditions.
+- [knowledge-codex-scheduled-followups](plugins/plugin-shared/skills/knowledge-codex-scheduled-followups/SKILL.md): explain and verify bounded recurring follow-ups and scheduling alternatives.
+
+Invoke them as `$plugin-shared:goal-loop-runner` and `$plugin-shared:knowledge-codex-scheduled-followups`. The goal runner retains automatic invocation; scheduled-followup guidance requires explicit invocation. Loading a skill does not activate a schedule.
+
+## Install and update
+
+Register the Git marketplace and install its plugin:
+
+```powershell
+codex plugin marketplace add leikunx/skill-marketplace-shared --ref main
+codex plugin add plugin-shared@skill-marketplace-shared
+```
+
+For later updates:
+
+```powershell
+codex plugin marketplace upgrade skill-marketplace-shared
+codex plugin add plugin-shared@skill-marketplace-shared
+```
+
+Start a new thread after installation or updates. The former `skills-shared@skill-marketplace-shared` plugin is replaced by `plugin-shared@skill-marketplace-shared`.
+
+## Maintain
+
+Keep each skill and all bundled resources under `plugins/plugin-shared/skills/<name>/`. Use `$plugin-private:skill-creator` for maintenance and follow [AGENTS.md](AGENTS.md) for validation and publication. Preserve existing skill names and invocation policies. Do not commit credentials, private source material, browser profiles, or task runtime data.

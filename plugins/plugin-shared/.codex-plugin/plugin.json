@@ -1,5 +1,5 @@
 {
-  "name": "skills-shared",
+  "name": "plugin-shared",
   "version": "0.1.14",
   "description": "Reusable Codex skills safe to share outside company projects.",
   "author": {
@@ -7,7 +7,7 @@
   },
   "skills": "./skills/",
   "interface": {
-    "displayName": "Skills Shared",
+    "displayName": "Plugin Shared",
     "shortDescription": "Reusable shared Codex skills.",
     "longDescription": "Installs generic, non-enterprise Codex workflows from the shared Git marketplace.",
     "developerName": "Kun Lei",

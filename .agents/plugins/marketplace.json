@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "skills-shared",
+      "name": "plugin-shared",
       "source": {
         "source": "local",
-        "path": "."
+        "path": "./plugins/plugin-shared"
       },
       "policy": {
         "installation": "AVAILABLE",
