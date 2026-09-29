@@ -10,7 +10,7 @@ The team-only companion is [`leikunx/skills-private`](https://github.com/leikunx
 
 Put a skill here only when its instructions, examples, references, and scripts are safe to share publicly. Put it in the private companion repository when it mentions internal projects, systems, URLs, architecture, tenant behavior, or team-only operating procedures. When uncertain, use `private` first and make a reviewed public extraction later.
 
-Create and update skills through `$skills-private:skill-creator`. New sources belong only in the two repositories' `skills/` directories, not standalone user/project locations or plugin caches. Knowledge/reference skills must be named `knowledge-<topic>`; the creator's `--kind knowledge` option supplies that prefix. Workstation activation and the portable creator tooling are maintained in the private companion.
+Create and update skills through `$skills-private:skill-creator`. Except for user-established project skill locations (including validation skills in `m365-validator/.agents/skills/`), new sources belong in the two repositories' `skills/` directories, not standalone user/project locations or plugin caches. Knowledge/reference skills must be named `knowledge-<topic>`; the creator's `--kind knowledge` option supplies that prefix. Workstation activation and the portable creator tooling are maintained in the private companion.
 
 ## Engineering review
 
@@ -18,7 +18,7 @@ Create and update skills through `$skills-private:skill-creator`. New sources be
 
 ## Browser validation
 
-`$skills-shared:validation-web-loop` authors and executes revision-pinned web scenarios with exclusive browser-session ownership, application-appropriate UI/protocol evidence, persistence and restore coverage, complete partial-failure accounting, and comparable baselines when the same scenario contract is rerun.
+`validation-web-loop` has moved, with its generator, tests, metadata and references, to [`leikunx/m365-validator/.agents/skills`](https://github.com/leikunx/m365-validator/tree/main/.agents/skills/validation-web-loop). The destination is private and requires access. Open that checkout and invoke `$validation-web-loop` without the former plugin qualifier. Refresh this plugin and start a new session after updating. Its scenario revision, browser ownership, evidence, and authorization rules are unchanged.
 
 ## Use on a workstation
 
