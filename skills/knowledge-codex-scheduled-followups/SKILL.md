@@ -7,6 +7,10 @@ description: "Explain Codex minute-based scheduled follow-ups, recurring monitor
 
 Codex supports scheduled follow-ups inside an existing chat. Current official documentation explicitly describes minute-based intervals for active follow-up loops. Do not tell the user that Codex cannot check again after a turn ends: determine whether a real schedule exists and whether the required execution environment is available.
 
+## Required companion skill
+
+Load and follow `$goal-loop-runner` with this skill. This skill supplies scheduling-specific knowledge; `$goal-loop-runner` owns the iterative execution contract, durable state, evidence gates, and stop behavior. If `$goal-loop-runner` is unavailable, report the missing dependency and do not claim that a recurring follow-up has been configured.
+
 ## Verified knowledge
 
 Verified against official documentation on **2026-09-18**. Read [sources and examples](references/sources-and-examples.md) for citations, the relevant passages, and a reusable monitoring prompt. Refresh the official sources when availability, UI, schema, or product-version details matter; do not treat this snapshot as a permanent capability guarantee.
@@ -29,7 +33,7 @@ Use current official documentation or available tool schemas for exact creation/
 
 Authorization and scope come from the user, not this knowledge skill. A request to explain or save the knowledge is not a request to create a task. A request to set up monitoring already authorizes ordinary reversible preparation; do not add another permission step for routine implementation choices.
 
-Make the recurrence concrete: target PR or service, sources to inspect, allowed actions, cadence, timezone, stop condition or pursuit window, and notification destination. Reuse settled preferences. Ask only for a material missing choice. For a stated away/asleep window, apply the goal-loop-runner unattended protocol if available.
+Make the recurrence concrete: target PR or service, sources to inspect, allowed actions, cadence, timezone, stop condition or pursuit window, and notification destination. Reuse settled preferences. Ask only for a material missing choice. For a stated away/asleep window, apply the `$goal-loop-runner` unattended protocol.
 
 Before claiming the monitor is active:
 
