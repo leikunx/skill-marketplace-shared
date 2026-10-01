@@ -1,7 +1,7 @@
 interface:
   display_name: "Codex Scheduled Follow-ups"
   short_description: "Explain minute-based Codex monitoring and scheduling"
-  default_prompt: "Use $knowledge-codex-scheduled-followups with $goal-loop-runner to design and verify a bounded recurring follow-up."
+  default_prompt: "Use $codex-scheduled-followups with $goal-loop-runner to design and verify a bounded recurring follow-up."
 
 policy:
   allow_implicit_invocation: false

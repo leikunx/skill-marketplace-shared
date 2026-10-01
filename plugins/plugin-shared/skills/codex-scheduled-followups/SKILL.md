@@ -1,5 +1,5 @@
 ---
-name: knowledge-codex-scheduled-followups
+name: codex-scheduled-followups
 description: "Explain Codex minute-based scheduled follow-ups, recurring monitoring, and CLI scheduler alternatives. Use for unattended PR/status/reply checks and scheduling setup questions; reading this knowledge alone does not create or enable a schedule."
 ---
 
