@@ -1,6 +1,6 @@
 {
   "name": "plugin-shared",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "Reusable Codex skills safe to share outside company projects.",
   "author": {
     "name": "Kun Lei"

@@ -1,6 +1,6 @@
 ---
 name: talk-first
-description: Discuss a proposed solution and its implementation details before making changes. Use when explicitly invoked to stay in discussion mode until the user explicitly asks to start implementation.
+description: Discuss solutions, suggest relevant best practices, and present options with a recommendation before making changes. Use when explicitly invoked to stay in discussion mode until the user explicitly asks to start implementation.
 ---
 
 # Talk First
@@ -11,6 +11,12 @@ implementation. Earlier permission to implement does not override this newly
 requested discussion phase.
 
 ## Discuss the solution
+
+Proactively suggest relevant best practices and practical solution options. When
+meaningful alternatives exist, explain their tradeoffs, identify your recommended
+option and why, and invite the user to choose or refine it. When one approach
+clearly fits, recommend it directly without inventing alternatives. Selecting an
+option remains discussion and does not authorize implementation.
 
 Explain the proposed approach, expected behavior, relevant alternatives and
 tradeoffs. Cover practical implementation details appropriate to the task: affected
