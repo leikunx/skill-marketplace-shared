@@ -22,7 +22,7 @@ plugins/plugin-shared/
 - [codex-scheduled-followups](plugins/plugin-shared/skills/codex-scheduled-followups/SKILL.md): explain and verify bounded recurring follow-ups and scheduling alternatives.
 - [talk-first](plugins/plugin-shared/skills/talk-first/SKILL.md): discuss the solution and its details until the user explicitly asks to begin implementation. Invoke as `$plugin-shared:talk-first`; implicit invocation is disabled.
 
-Invoke them as `$plugin-shared:goal-loop-runner` and `$plugin-shared:codex-scheduled-followups`. The goal runner retains automatic invocation; scheduled-followup guidance requires explicit invocation. Loading a skill does not activate a schedule.
+Invoke them as `$plugin-shared:goal-loop-runner` and `$plugin-shared:codex-scheduled-followups`. These runners and scheduled-followup guidance require explicit invocation. Loading a skill does not activate a schedule.
 
 ## Install and update
 
