@@ -18,6 +18,7 @@ plugins/plugin-shared/
 ## Skills
 
 - [goal-loop-runner](plugins/plugin-shared/skills/goal-loop-runner/SKILL.md): pursue goals through verified iterations with durable state and explicit stopping conditions.
+- [goal-loop-runner-endless](plugins/plugin-shared/skills/goal-loop-runner-endless/SKILL.md): explicitly combine the goal loop and scheduled follow-ups for continuing improvement within an authorised window or until stopped. Implicit invocation is disabled.
 - [codex-scheduled-followups](plugins/plugin-shared/skills/codex-scheduled-followups/SKILL.md): explain and verify bounded recurring follow-ups and scheduling alternatives.
 - [talk-first](plugins/plugin-shared/skills/talk-first/SKILL.md): discuss the solution and its details until the user explicitly asks to begin implementation. Invoke as `$plugin-shared:talk-first`; implicit invocation is disabled.
 
