@@ -6,7 +6,21 @@
 - Done condition:
 - Gate:
 - State path:
+- Requirements-ledger path:
 - Limits and approval boundaries:
+
+## User requirements checkpoint
+
+- Ledger revision / last reconciled user message or turn:
+- Capture coverage (complete for available history / incomplete, with gap):
+- Binding requirement IDs / unresolved IDs:
+- Latest amendment IDs and affected requirements:
+- Assumptions or open questions affecting acceptance or authority:
+- Last full-ledger read / post-compaction recovery:
+- Last completion audit revision / verified and unmet IDs:
+
+Keep requirement text, source references, change history, and per-requirement evidence in
+the separate ledger. This checkpoint is an index, not a replacement for that record.
 
 ## Prior-goal learning
 
@@ -22,6 +36,9 @@
 ## Current round packet
 
 - Contract version:
+- Requirements-ledger revision / capture cursor:
+- Requirement IDs targeted this round:
+- All unresolved binding requirement IDs:
 - Accepted checkpoint:
 - Evidence supporting checkpoint:
 - In progress:
@@ -35,6 +52,7 @@
 
 - Window start/end/timezone or stop condition:
 - Scheduling mechanism / execution environment:
+- Shared state and requirements-ledger paths:
 - Scheduler command or definition:
 - Scheduler id / current job id:
 - Scheduler enabled state / next run:
@@ -52,8 +70,16 @@
 
 ## Iteration log
 
-| Cycle | Action | Gate and result | Decision |
-| --- | --- | --- | --- |
+| Cycle | Requirement IDs | Action | Gate and result | Decision |
+| --- | --- | --- | --- | --- |
+
+## Final requirements audit summary
+
+- Complete ledger re-read at revision / capture cursor:
+- Original objective gate and fresh evidence:
+- Binding requirements verified / unmet, with ledger evidence links:
+- Superseded, withdrawn, or user-deferred IDs and user-source links:
+- Completion allowed / remaining action or boundary:
 
 ## Candidate comparison
 

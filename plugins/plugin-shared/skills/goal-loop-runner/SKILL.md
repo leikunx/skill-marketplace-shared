@@ -57,13 +57,35 @@ Before the first substantive action, establish:
 - **Objective:** preserve the active Codex goal if present; otherwise state a concise proposed objective.
 - **Done condition:** a concrete result plus an objective gate wherever possible.
 - **State file:** use the user-named path; otherwise `.codex/goals/<goal-slug>/STATE.md` in the task workspace. Never reuse a state file belonging to another objective.
+- **Requirements ledger:** use the user-named path; otherwise `REQUIREMENTS.md` beside the state file. Record its exact path in state and keep it separate from compact progress summaries. Never reuse it for another objective.
 - **Limits:** attempts, duration, cost/token budget when supplied, and approval boundaries.
 
-Create the state file from [the state template](references/state-template.md) when needed. At the start of each iteration, read it and the applicable project instructions. At the end, record only facts: action, outcome, evidence, blockers, and the next action.
+Create the state file and requirements ledger from [the state template](references/state-template.md) and [the requirements template](references/requirements-template.md) when needed. At the start of each iteration, read both and the applicable project instructions. At the end, persist requirement updates and record facts: action, outcome, evidence, blockers, and the next action.
+
+## Preserve every user requirement
+
+During goal execution, maintain the requirements ledger as the durable record of user intent. The native Goal objective and `STATE.md` summarize progress; neither replaces the complete requirement register.
+
+- **Capture:** extract all goal-relevant requirements from the available user messages, including earlier discussion and accepted decisions, not just the latest prompt. Reconcile every subsequent user message, including structured answers. Persist new or amended requirements before dependent actions and before ending a user-facing turn; do not keep them solely in conversation memory. Preserve outcomes, features, exact values and ranges, quality/verification requirements, preferences, exclusions, scope and authority limits, and requested deliverables. Record a message reference or turn ordinal with a short faithful quote or paraphrase; keep a capture cursor so later input is not skipped.
+- **Separate provenance:** distinguish explicit user instructions and user-accepted proposals from agent assumptions or pending suggestions. Questions and hypothetical exploration are not automatically implementation requirements; record any resulting user decision. An unsubmitted default option is not acceptance. Record material uncertainty without inventing an answer or expanding authority.
+- **Track changes:** split multi-part messages into independently checkable requirements, retaining their shared source; give each a stable ID, acceptance check, status, and evidence. Append corrections, withdrawals, and user-directed deferrals to change history, linking affected IDs. Preserve superseded entries and their replacement/source links. A later amendment changes only the affected requirements unless the user explicitly replaces the objective; do not silently drop earlier scope or defer it to declare completion.
+- **Protect secrets:** preserve a credential requirement's purpose and protected reference, never its password, token, or other secret value in the ledger, summaries, public skill sources, or logs. Keep task requirement records within the task's authorized storage and publication boundaries.
+
+### Recovery after compaction or handoff
+
+Before the next substantive action after context compaction, a resumed turn, a scheduled job, or a handoff, re-read the state and the complete requirements ledger from disk, in chunks when needed. Include change history and superseded/deferred entries when reconstructing the current requirements; do not rely only on a compacted conversation summary, the native Goal text, or the latest round packet.
+
+Reconcile available newer user messages against the capture cursor, then rebuild the plan from all currently binding requirements. If the ledger is missing or incomplete, reconstruct it from available authoritative records and mark the gap; never claim full coverage from an incomplete summary. Continue independent safe work and clarify only material intent that cannot be recovered. Before a handoff or known compaction boundary, flush updates and include both file paths, ledger revision, capture cursor, and unresolved requirement IDs in the handoff.
+
+### Requirement completion gate
+
+Before marking the Goal complete or reporting all requested work done, re-read the complete ledger and audit every currently binding requirement against the actual deliverable and fresh evidence. Each must be `verified` with its acceptance check and evidence location; implementation claims, progress summaries, and a passing unrelated check do not suffice. Evidence invalidated by an amendment or later change returns the affected requirement to an unverified status.
+
+Record the audit in the ledger and summarize its coverage in state. A pending, in-progress, blocked, uncertain, or unverified requirement prevents an all-done claim. Superseded, withdrawn, and user-deferred requirements need explicit user-source/change links; document their disposition rather than deleting them. On a bounded handoff, stop, or budget boundary, report verified and unmet requirements honestly and follow the host's Goal-status policy without relabeling partial work complete.
 
 ## Round packet and checkpoint trust
 
-Start each iteration with a compact round packet: original objective, active contract, latest accepted checkpoint and evidence, remaining work, relevant failures or rejections, and authoritative user amendments. Raw transcripts, tool logs, executor claims, partial output, and timed-out work support diagnosis, not accepted progress.
+Start each iteration with a compact round packet: original objective, active contract, requirements-ledger path/revision and all unresolved binding IDs, IDs targeted this round, latest accepted checkpoint and evidence, remaining work, relevant failures or rejections, and authoritative user amendments. Raw transcripts, tool logs, executor claims, partial output, and timed-out work support diagnosis, not accepted progress.
 
 Keep attempt, verification, and checkpoint decisions distinct:
 
@@ -95,7 +117,7 @@ If available, read `$plugin-shared:codex-scheduled-followups` for scheduling, CL
 
 - Prefer supported existing-chat schedules for context-dependent follow-ups; official documentation describes minute-based intervals. Use standalone schedules for independent runs. When native scheduling is unavailable or the environment requires it, an external scheduler can invoke `codex exec`; see [non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode).
 - Reuse established execution scope and scheduling authorization. Specify cadence, timezone, stop condition or pursuit window, permitted actions, and notification destination; ask only for material missing choices. Editing or explaining guidance does not create a monitor; ordinary goals do not authorize indefinite recurrence.
-- Check for a matching schedule before creating one. Record its identifier, enabled state, next run, exact definition, environment, shared state path, bounded runtime, and non-overlap lease. Verify an actual scheduler-launched run with required tools, browser profile, authentication, and resulting evidence before claiming monitoring works; a saved definition or manual check is insufficient.
+- Check for a matching schedule before creating one. Record its identifier, enabled state, next run, exact definition, environment, shared state and requirements-ledger paths, bounded runtime, and non-overlap lease. Verify an actual scheduler-launched run with required tools, browser profile, authentication, and resulting evidence before claiming monitoring works; a saved definition or manual check is insufficient.
 - If only external review or a confirmed running job remains, mark the current job waiting and preserve a separately authorized schedule until its stop condition. Keep goal, job, and scheduler status distinct. Follow the host's repeated-blocker policy; never fabricate progress, reset its audit, or imply that blocking a goal creates or cancels a schedule.
 - On verified completion, send any already-authorized notification once and disable the schedule. At its configured end or user stop, stop launching jobs and report the accepted checkpoint and remaining gates. Without a verified scheduler, state that future checks are not configured.
 
@@ -107,7 +129,7 @@ For a stated away/asleep period, follow [the unattended handoff protocol](refere
 
 Keep pursuing the goal through recoverable failures during the window. Follow Scheduled follow-ups to launch bounded, stateful jobs through a supported native or external scheduler; the skill creates no timer. Prevent overlap on mutable targets unless concurrency is explicitly safe. Each job records its scheduler/job id, claims a round with a time-bounded lease, rebuilds the round packet, and resumes the accepted checkpoint, not executor claims. Reclaim a stale lease only after verifying its process or external action is inactive.
 
-Each job first reads goal state and inspects the current browser, process, service, or remote state. After failure, record the hypothesis and try a materially different safe diagnostic or recovery within that job. Browser options include connectivity checks, tab selection or creation, readiness waits, console/network evidence, and revisiting authenticated routes. Never retry unchanged or stop solely over one failed navigation, selector, or process start.
+Each job first reads goal state and the complete requirements ledger, reconciles available new user input, and inspects the current browser, process, service, or remote state. After failure, record the hypothesis and try a materially different safe diagnostic or recovery within that job. Browser options include connectivity checks, tab selection or creation, readiness waits, console/network evidence, and revisiting authenticated routes. Never retry unchanged or stop solely over one failed navigation, selector, or process start.
 
 Resolve routine choices from available resources or authorized safe defaults. For external prerequisites—interactive sign-in, missing credentials, multifactor approval, payment confirmation, or product decisions—never fabricate answers or wait inside a job. Record exact evidence and the minimum unblocking action, continue independent safe work, and let later jobs revalidate until window end. Never bypass authentication, fabricate credentials, accept payment terms, or create charges to avoid waiting.
 
@@ -117,13 +139,13 @@ At window end, report accepted changes, objective-gate evidence, failed and reco
 
 For long-running work, improve the workflow through evidence, not unconstrained self-critique. Keep information in three layers:
 
-- **Task state:** The selected `STATE.md` is the short-term memory. Read it each cycle; retain completed evidence, current constraints, blockers, and one credible next action. Remove superseded speculation during periodic compaction.
+- **Task state:** Read the selected `STATE.md` and requirements ledger each cycle; retain completed evidence, current constraints, blockers, and one credible next action. Compact progress and speculation without dropping user requirements or their amendment history.
 - **Validated lessons:** Record a lesson only after a later cycle confirms that applying it improved an objective gate. A lesson states the trigger, changed action, and evidence. Keep unvalidated ideas in the iteration log, not durable lessons.
 - **Reusable guidance:** Promote a lesson to a project `AGENTS.md` or a skill only when it has proven useful across tasks or is a stable safety/operational invariant. Do not turn a one-off incident into a universal rule.
 
 At the end of each cycle, add a concise reflection only when it changes the next decision: `hypothesis -> observed evidence -> verdict -> changed next action`.
 
-Every 3-5 material cycles, compact the state: preserve the accepted baseline, decisions, artifact paths, open risks, and next action; remove raw tool output and disproven hypotheses. Re-run the applicable gate after any strategy change. Never treat an agent's self-assessment as proof of improvement.
+Every 3-5 material cycles, compact the state: preserve the accepted baseline, decisions, artifact paths, requirements-ledger path/revision and capture cursor, unresolved requirement IDs, open risks, and next action; remove raw tool output and disproven hypotheses. Keep the complete ledger and amendment history intact. Re-run the applicable gate after any strategy change. Never treat an agent's self-assessment as proof of improvement.
 
 ### Evolving skills created during a goal
 
@@ -145,11 +167,11 @@ This skill records task-local outcomes in the selected goal state, not in this f
 
 For every cycle:
 
-1. Read the active goal, applicable project instructions, and selected state; rebuild the compact round packet from the last accepted checkpoint.
-2. Choose the smallest action that can produce one dominant, observable state transition.
+1. Read the active goal, applicable project instructions, selected state, and requirements ledger; reconcile new user input and rebuild the compact round packet from the last accepted checkpoint and all binding requirements.
+2. Choose the smallest action that can produce one dominant, observable state transition; link it to the requirement IDs it advances.
 3. Execute it within the current round budget, preserving partial output as untrusted evidence if execution fails or times out.
 4. Run a distinct verification pass using the defined gate (tests, build, lint, data check, visual check, or another stated proof) against the real final-state carrier and original contract.
-5. Inspect the resulting diff or artifact. Promote verified facts into the accepted checkpoint; keep rejected or uncertain output explicitly untrusted.
+5. Inspect the resulting diff or artifact. Promote verified facts into the accepted checkpoint and update evidence/status for affected requirement IDs; keep rejected or uncertain output explicitly untrusted.
 6. When a failure or blocker changes the approach, record its hypothesis, evidence, and revised action; promote only later-validated lessons.
 7. Continue only if a specific next action has a credible path to improvement. Do not repeat an unchanged failed action. If the remaining budget cannot honestly reach the full gate, pursue the most complete verifiable action or report the exact boundary instead of spending the last round on a knowingly insufficient prerequisite.
 
@@ -159,9 +181,9 @@ Treat the stated deliverable as the execution mandate, including intermediate di
 
 Failure is an **iteration result** when evidence exposes a credible next action. Record the failed hypothesis and evidence, then choose a materially different action that improves the objective or distinguishes causes. Re-run the objective gate after every repair. Discover or safely infer ordinary implementation details.
 
-Before final status, check goal state for an untried, safe, authorized action with a credible path to completion; take it if one exists. Conclude only when:
+Before final status, perform the requirement completion gate and check goal state for an untried, safe, authorized action with a credible path to completion; take it if one exists. Conclude only when:
 
-- **Complete:** the final deliverable exists and fresh objective-gate evidence proves its done condition.
+- **Complete:** the final deliverable exists, fresh objective-gate evidence proves its done condition, and every currently binding user requirement passes the recorded completion audit.
 - **Blocked:** progress requires a genuine external prerequisite and the host's repeated-blocker threshold across goal turns is satisfied. Report the exact evidence, attempts, minimum unblocking action, and any independently configured schedule. A bounded scheduled job may end as waiting without claiming the goal is achieved; subsequent goal-status updates still follow the host policy.
 - **User-directed stop:** the user explicitly ends or changes the objective.
 
@@ -196,3 +218,5 @@ For code, prefer one implementation with an independent reviewer/verifier when a
 ## Boundaries
 
 Invoke as `$goal-loop-runner`; it adds no native `/loop`, daemon, or timer. Recurrence requires a verified native Codex schedule or external scheduler launching bounded jobs with the same contract and accessible state path. Loading the skill or scheduling reference does not enable recurrence.
+
+When the user asks only to inspect, explain, or edit this skill, perform that requested work without starting a Goal, requirement ledger, execution loop, or schedule for the underlying task.
