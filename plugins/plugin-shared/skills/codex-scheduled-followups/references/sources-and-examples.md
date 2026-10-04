@@ -32,6 +32,16 @@ These are invocation examples, not schedules. An external scheduler must trigger
 
 For Windows, Task Scheduler can launch a wrapper containing the chosen command, timeout, non-overlap handling, and log capture. Verify browser access under the actual scheduled account/session before relying on this approach for Playwright Extension.
 
+## Official CLI configuration and provider authentication
+
+Verified: **2026-10-04**.
+
+- [Advanced configuration](https://learn.chatgpt.com/docs/config-file/config-advanced#config-and-state-locations): `CODEX_HOME` defaults to `~/.codex`; `config.toml` contains user configuration. Profiles and CLI overrides can change effective settings.
+- [Authentication](https://learn.chatgpt.com/docs/auth#alternative-model-providers): custom providers can use OpenAI authentication, an environment variable or their own authentication arrangement. `requires_openai_auth = true` selects OpenAI authentication; without it, an OpenAI login is not a universal requirement.
+- [Configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference): provider authentication supports a command-backed credential helper; `requires_openai_auth` defaults to false for custom providers.
+
+Check configuration and provider access under the actual scheduled account. A wrapper that exits solely because `codex login status` returns `Not logged in` can prevent a correctly configured custom provider from running. Preserve the user's provider settings and let a bounded `codex exec` attempt establish whether that provider is accessible, without exposing credentials or helper output.
+
 ## Community patterns inspected
 
 These repositories were read, not installed or independently tested. Their instructions are examples, not authoritative Codex schemas or permission grants.

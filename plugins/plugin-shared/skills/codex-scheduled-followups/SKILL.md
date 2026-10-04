@@ -18,7 +18,7 @@ Verified against official documentation on **2026-09-18**. Read [sources and exa
 - **Scheduled task in an existing chat:** returns to that chat on a schedule and uses its existing context. Minute-based intervals are documented for monitoring a long-running operation, checking a connected source, and continuing a review loop.
 - **Standalone scheduled task:** starts a new chat for each run. Suitable for independent recurring work; store shared state at a stable, explicitly accessible path when runs must coordinate.
 - **Local project execution:** keep the computer powered on, the desktop app running, and the selected project present. Git projects can use the local checkout or an isolated worktree; do not assume every scheduled run creates a worktree.
-- **CLI alternative:** an external scheduler can invoke `codex exec` for a bounded check. The CLI supports JSONL output and resuming a specific session with `codex exec resume <SESSION_ID>`. It reuses saved CLI authentication by default; that does not establish authentication to external services.
+- **CLI alternative:** an external scheduler can invoke `codex exec` for a bounded check. The CLI supports JSONL output and resuming a specific session with `codex exec resume <SESSION_ID>`. It loads the user's Codex configuration and uses the selected provider's authentication; that does not establish authentication to external services.
 - **Goal, skill, and schedule are different:** a goal preserves the objective, a skill supplies instructions, and a scheduler triggers future execution. An active goal, a saved state file, or a promise to monitor is not evidence that a schedule is installed. Azure DevOps auto-complete can merge independently, but does not wake Codex to inspect replies or send a completion message.
 
 ## Choose the mechanism from the actual environment
@@ -28,6 +28,14 @@ For a conversation-specific follow-up, prefer a supported schedule attached to t
 Inspect the current tool catalog and supported app controls before creating a schedule. Do not invent a scheduling tool or assume a community example's tool name or parameter schema is supported here. No scheduling tool in the current turn means that tool is unavailable to this session; it does not prove the app lacks scheduling. Explain the verified boundary and inspect a supported UI or external scheduler when setup is requested.
 
 Use current official documentation or available tool schemas for exact creation/update commands. Do not edit undocumented automation databases or install a community monitor merely because its pattern looks useful. Prefer a specific CLI session ID over `--last` when other conversations may run concurrently.
+
+## CLI configuration and provider authentication
+
+`codex exec` reads `$CODEX_HOME/config.toml`, defaulting to `~/.codex/config.toml`, with supported configuration layers and command-line overrides. Verify the scheduled account's home, `CODEX_HOME`, selected profile and provider using non-secret metadata. Preserve the user's configured model, provider and authentication unless the task authorizes a change.
+
+Do not make `codex login status` a universal prerequisite. A custom provider can authenticate through an environment variable or a credential helper, or require no authentication, while that command reports `Not logged in`. Require OpenAI sign-in only when the selected provider actually uses OpenAI authentication.
+
+Verify provider access through a bounded `codex exec` run in the actual scheduler environment. Diagnose its real failure before requesting sign-in; a missing OpenAI login alone does not prove the configured provider is inaccessible. Keep credentials and raw credential-helper output private. See [official configuration and authentication sources](references/sources-and-examples.md#official-cli-configuration-and-provider-authentication).
 
 ## When the user requests unattended setup
 
