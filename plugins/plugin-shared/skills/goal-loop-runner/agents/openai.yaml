@@ -1,7 +1,7 @@
 interface:
   display_name: "Goal Loop Runner"
-  short_description: "Evidence-gated goals with durable user requirements"
-  default_prompt: "Use $goal-loop-runner to pursue this goal iteratively, record every user requirement and amendment, re-read the requirements after compaction, verify each cycle, and audit all binding requirements before completion."
+  short_description: "Durable goals with efficient recovery after compaction"
+  default_prompt: "Use $goal-loop-runner to pursue this goal, preserve every user requirement and a durable recovery checkpoint, restore decisions and evidence after compaction, reconcile uncertain external actions, and verify all binding requirements before completion."
 
 policy:
   allow_implicit_invocation: false

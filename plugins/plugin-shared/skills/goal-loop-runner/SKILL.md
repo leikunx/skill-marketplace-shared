@@ -60,7 +60,7 @@ Before the first substantive action, establish:
 - **Requirements ledger:** use the user-named path; otherwise `REQUIREMENTS.md` beside the state file. Record its exact path in state and keep it separate from compact progress summaries. Never reuse it for another objective.
 - **Limits:** attempts, duration, cost/token budget when supplied, and approval boundaries.
 
-Create the state file and requirements ledger from [the state template](references/state-template.md) and [the requirements template](references/requirements-template.md) when needed. At the start of each iteration, read both and the applicable project instructions. At the end, persist requirement updates and record facts: action, outcome, evidence, blockers, and the next action.
+Create the state file and requirements ledger from [the state template](references/state-template.md) and [the requirements template](references/requirements-template.md) when needed. At iteration start, read current state, reconcile ledger revisions/updates, and read applicable project instructions; full recovery is required at setup and after compaction/resume/handoff. At the end, persist requirement updates and record facts: action, outcome, evidence, blockers, and the next action.
 
 ## Preserve every user requirement
 
@@ -71,11 +71,19 @@ During goal execution, maintain the requirements ledger as the durable record of
 - **Track changes:** split multi-part messages into independently checkable requirements, retaining their shared source; give each a stable ID, acceptance check, status, and evidence. Append corrections, withdrawals, and user-directed deferrals to change history, linking affected IDs. Preserve superseded entries and their replacement/source links. A later amendment changes only the affected requirements unless the user explicitly replaces the objective; do not silently drop earlier scope or defer it to declare completion.
 - **Protect secrets:** preserve a credential requirement's purpose and protected reference, never its password, token, or other secret value in the ledger, summaries, public skill sources, or logs. Keep task requirement records within the task's authorized storage and publication boundaries.
 
+## Durable state and recovery
+
+At execution setup, read [the recovery protocol](references/recovery-protocol.md). Keep a compact recovery entry in `STATE.md`: goal identity, checkpoint revision/time, exact workspace and artifact locations, supporting-record paths/revisions, current decisions, evidence references, unresolved operations, and the next bounded action. Record only applicable fields. Separate implemented, verified, published, and deployed stages when those stages apply; a progress label alone is not evidence.
+
+Persist decisions and their reconsideration conditions, failed approaches and their retry conditions, and verification scope/version so recovery can reuse valid work. Save after material decisions, results, user amendments, and before ending a turn; record intent before a consequential external write and its observed outcome afterward. Do not wait for a predicted compaction threshold. Write supporting records before updating the checkpoint entry, and preserve evidence of interrupted or uncertain operations. Keep task records within authorized storage, excluding secret values and unrelated user data.
+
 ### Recovery after compaction or handoff
 
 Before the next substantive action after context compaction, a resumed turn, a scheduled job, or a handoff, re-read the state and the complete requirements ledger from disk, in chunks when needed. Include change history and superseded/deferred entries when reconstructing the current requirements; do not rely only on a compacted conversation summary, the native Goal text, or the latest round packet.
 
-Reconcile available newer user messages against the capture cursor, then rebuild the plan from all currently binding requirements. If the ledger is missing or incomplete, reconstruct it from available authoritative records and mark the gap; never claim full coverage from an incomplete summary. Continue independent safe work and clarify only material intent that cannot be recovered. Before a handoff or known compaction boundary, flush updates and include both file paths, ledger revision, capture cursor, and unresolved requirement IDs in the handoff.
+Follow the recovery protocol: confirm goal/workspace identity, reconcile newer user input, restore effective decisions, inspect actual artifacts and unresolved external operations, and invalidate only evidence affected by changes. Read the complete requirements ledger while loading detailed logs and archived attempts only when the next action needs them. Reuse passing evidence whose tested revision, scope, and relevant conditions remain valid; compaction alone does not require repeating research, tests, or completed writes.
+
+If records are missing, inconsistent, or incomplete, reconstruct them from available authoritative records and mark the gap; never claim full coverage from an incomplete summary. Continue independent safe work and clarify only material intent that cannot be recovered. Before a handoff or known compaction boundary, flush updates and include goal identity, exact state/supporting-record paths and revisions, capture cursor, unresolved requirement/operation IDs, and the next action in the handoff. Saved runtime and authentication observations require fresh checks when the next action depends on them.
 
 ### Requirement completion gate
 
@@ -85,7 +93,7 @@ Record the audit in the ledger and summarize its coverage in state. A pending, i
 
 ## Round packet and checkpoint trust
 
-Start each iteration with a compact round packet: original objective, active contract, requirements-ledger path/revision and all unresolved binding IDs, IDs targeted this round, latest accepted checkpoint and evidence, remaining work, relevant failures or rejections, and authoritative user amendments. Raw transcripts, tool logs, executor claims, partial output, and timed-out work support diagnosis, not accepted progress.
+Start each iteration with a compact round packet: original objective, active contract, requirements-ledger path/revision and all unresolved binding IDs, IDs targeted this round, exact workspace/target revision, relevant effective decisions, latest accepted checkpoint and evidence, unresolved operation IDs, remaining work/dependencies, relevant failures or rejections, and authoritative user amendments. Raw transcripts, tool logs, executor claims, partial output, and timed-out work support diagnosis, not accepted progress.
 
 Keep attempt, verification, and checkpoint decisions distinct:
 
@@ -129,7 +137,7 @@ For a stated away/asleep period, follow [the unattended handoff protocol](refere
 
 Keep pursuing the goal through recoverable failures during the window. Follow Scheduled follow-ups to launch bounded, stateful jobs through a supported native or external scheduler; the skill creates no timer. Prevent overlap on mutable targets unless concurrency is explicitly safe. Each job records its scheduler/job id, claims a round with a time-bounded lease, rebuilds the round packet, and resumes the accepted checkpoint, not executor claims. Reclaim a stale lease only after verifying its process or external action is inactive.
 
-Each job first reads goal state and the complete requirements ledger, reconciles available new user input, and inspects the current browser, process, service, or remote state. After failure, record the hypothesis and try a materially different safe diagnostic or recovery within that job. Browser options include connectivity checks, tab selection or creation, readiness waits, console/network evidence, and revisiting authenticated routes. Never retry unchanged or stop solely over one failed navigation, selector, or process start.
+Each job applies the recovery protocol, including reading goal state and the complete requirements ledger, reconciling available new user input and uncertain operations, and inspecting the current browser, process, service, or remote state. After failure, record the hypothesis and try a materially different safe diagnostic or recovery within that job. Browser options include connectivity checks, tab selection or creation, readiness waits, console/network evidence, and revisiting authenticated routes. Never retry unchanged or stop solely over one failed navigation, selector, or process start.
 
 Resolve routine choices from available resources or authorized safe defaults. For external prerequisites—interactive sign-in, missing credentials, multifactor approval, payment confirmation, or product decisions—never fabricate answers or wait inside a job. Record exact evidence and the minimum unblocking action, continue independent safe work, and let later jobs revalidate until window end. Never bypass authentication, fabricate credentials, accept payment terms, or create charges to avoid waiting.
 
@@ -139,13 +147,13 @@ At window end, report accepted changes, objective-gate evidence, failed and reco
 
 For long-running work, improve the workflow through evidence, not unconstrained self-critique. Keep information in three layers:
 
-- **Task state:** Read the selected `STATE.md` and requirements ledger each cycle; retain completed evidence, current constraints, blockers, and one credible next action. Compact progress and speculation without dropping user requirements or their amendment history.
+- **Task state:** Refresh the selected `STATE.md` and requirement coverage each cycle using the recovery protocol; retain completed evidence, current constraints, blockers, and one credible next action. Compact progress and speculation without dropping user requirements or their amendment history.
 - **Validated lessons:** Record a lesson only after a later cycle confirms that applying it improved an objective gate. A lesson states the trigger, changed action, and evidence. Keep unvalidated ideas in the iteration log, not durable lessons.
 - **Reusable guidance:** Promote a lesson to a project `AGENTS.md` or a skill only when it has proven useful across tasks or is a stable safety/operational invariant. Do not turn a one-off incident into a universal rule.
 
 At the end of each cycle, add a concise reflection only when it changes the next decision: `hypothesis -> observed evidence -> verdict -> changed next action`.
 
-Every 3-5 material cycles, compact the state: preserve the accepted baseline, decisions, artifact paths, requirements-ledger path/revision and capture cursor, unresolved requirement IDs, open risks, and next action; remove raw tool output and disproven hypotheses. Keep the complete ledger and amendment history intact. Re-run the applicable gate after any strategy change. Never treat an agent's self-assessment as proof of improvement.
+Every 3-5 material cycles, compact progress using the recovery protocol: preserve the accepted baseline, effective decisions and reconsideration conditions, exact workspace/artifact revisions, evidence references and freshness, supporting-record paths/revisions, capture cursor, unresolved requirement/operation IDs, open risks, and next action/dependencies. Move detailed attempts and output to referenced records; retain failed-method retry conditions. Keep the complete requirements ledger and amendment history intact. Re-run the applicable gate after any strategy change. Never treat an agent's self-assessment as proof of improvement.
 
 ### Evolving skills created during a goal
 
@@ -167,11 +175,11 @@ This skill records task-local outcomes in the selected goal state, not in this f
 
 For every cycle:
 
-1. Read the active goal, applicable project instructions, selected state, and requirements ledger; reconcile new user input and rebuild the compact round packet from the last accepted checkpoint and all binding requirements.
+1. Read the active goal, applicable project instructions, current state, and ledger revisions/updates using the recovery protocol; reconcile new user input, fully recover when resuming, and rebuild the compact round packet from the last accepted checkpoint and all binding requirements.
 2. Choose the smallest action that can produce one dominant, observable state transition; link it to the requirement IDs it advances.
-3. Execute it within the current round budget, preserving partial output as untrusted evidence if execution fails or times out.
+3. Execute it within the current round budget, recording consequential external intent before dispatch and its outcome afterward; preserve partial output as untrusted evidence if execution fails or times out. Reconcile uncertain effects before retrying a write.
 4. Run a distinct verification pass using the defined gate (tests, build, lint, data check, visual check, or another stated proof) against the real final-state carrier and original contract.
-5. Inspect the resulting diff or artifact. Promote verified facts into the accepted checkpoint and update evidence/status for affected requirement IDs; keep rejected or uncertain output explicitly untrusted.
+5. Inspect the resulting diff or artifact. Promote verified facts into the accepted checkpoint and update evidence/status for affected requirement IDs, with actual revision, verification scope, and durable evidence references; keep rejected or uncertain output explicitly untrusted.
 6. When a failure or blocker changes the approach, record its hypothesis, evidence, and revised action; promote only later-validated lessons.
 7. Continue only if a specific next action has a credible path to improvement. Do not repeat an unchanged failed action. If the remaining budget cannot honestly reach the full gate, pursue the most complete verifiable action or report the exact boundary instead of spending the last round on a knowingly insufficient prerequisite.
 
