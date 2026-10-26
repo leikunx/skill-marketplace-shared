@@ -1,5 +1,21 @@
 # Evolution Log
 
+## 2026-10-26: Move global guidance into conditional skill references
+
+- Trigger: the user requested an empty machine-global AGENTS.md and portable skill
+  guidance, with Work IQ instructions applying only to company work.
+- Change: retain Goal continuation in the entrypoint and route company Teams tasks
+  to a dedicated Work IQ reference; use a machine-resolved CODEX_HOME cache path.
+- Evidence: the source global file contains only continuation and routine Work IQ
+  sections. Both are covered; no account/recipient data is published. Personal
+  development does not load the company reference.
+- Validation: skill validation, local links, metadata and migration coverage review;
+  verify published/installed guidance before clearing the global source.
+- Scope: goal-loop-runner and plugin version 0.1.24; the user's local global file.
+  Explicit-only invocation and existing messaging authority remain unchanged.
+- Rollback: restore the local backup if content was lost during migration; preserve
+  the company-only routing and native continuation preference unless the user changes them.
+
 ## 2026-10-26: Keep native continuation in the current chat
 
 - Trigger: an explicit user preference rejects opening another Codex agent to pursue

@@ -137,6 +137,7 @@ Read only applicable references, before their first dependent action:
 
 | Trigger | Procedure |
 | --- | --- |
+| Company-work Teams messaging through Work IQ; skip for personal development | [Company Work IQ messages](references/company-workiq-messages.md) |
 | Browser/account actions | [Browser automation](references/browser-automation.md) |
 | Later checks/recurrence/windows; consider at contract/handoff | [Scheduling](references/scheduling.md) |
 | Stated away/asleep window | [Unattended handoff](references/unattended-handoff.md), plus scheduling |
