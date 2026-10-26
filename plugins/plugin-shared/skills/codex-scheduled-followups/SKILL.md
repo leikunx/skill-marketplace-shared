@@ -1,11 +1,16 @@
 ---
 name: codex-scheduled-followups
-description: "Explain Codex minute-based scheduled follow-ups, recurring monitoring, and CLI scheduler alternatives. Use for unattended PR/status/reply checks and scheduling setup questions; reading this knowledge alone does not create or enable a schedule."
+description: "Use native Goal continuation and supported same-chat scheduled follow-ups for PR/status/reply checks. Default to the host's continuation scanner; never use another agent, standalone chat, extra terminal, or external scheduler for continuation. Reading this guidance alone enables nothing."
 ---
 
 # Codex Scheduled Follow-ups
 
-Codex supports scheduled follow-ups inside an existing chat. Current official documentation explicitly describes minute-based intervals for active follow-up loops. Do not tell the user that Codex cannot check again after a turn ends: determine whether a real schedule exists and whether the required execution environment is available.
+Keep work in the current Codex agent and chat. Default to native Goal automatic continuation
+(the host's built-in interval scanner) with its existing defaults. When a fixed cadence is
+needed, use only supported native scheduling attached to this same chat. Never launch another
+agent/session, a standalone scheduled chat, an extra terminal, or an external CLI scheduler
+for continuation. Missing native controls are a limitation to report, not permission to
+use that fallback. Preserve separately authorized validation rules.
 
 ## Required companion skill
 
@@ -13,29 +18,38 @@ Load and follow `$goal-loop-runner` with this skill. This skill supplies schedul
 
 ## Verified knowledge
 
-Verified against official documentation on **2026-09-18**. Read [sources and examples](references/sources-and-examples.md) for citations, the relevant passages, and a reusable monitoring prompt. Refresh the official sources when availability, UI, schema, or product-version details matter; do not treat this snapshot as a permanent capability guarantee.
+Verified against official documentation on **2026-10-26**. Read [sources and examples](references/sources-and-examples.md) for citations, the relevant passages, and a reusable monitoring prompt. Refresh the official sources when availability, UI, schema, or product-version details matter; do not treat this snapshot as a permanent capability guarantee.
 
 - **Scheduled task in an existing chat:** returns to that chat on a schedule and uses its existing context. Minute-based intervals are documented for monitoring a long-running operation, checking a connected source, and continuing a review loop.
-- **Standalone scheduled task:** starts a new chat for each run. Suitable for independent recurring work; store shared state at a stable, explicitly accessible path when runs must coordinate.
+- **Native Goal continuation:** `features.goals` enables persisted goals and automatic continuation, and is on by default. Verify the effective feature and current goal state. Its native scan interval is not a user-specified schedule; do not invent a fixed duration or next-run time.
 - **Local project execution:** keep the computer powered on, the desktop app running, and the selected project present. Git projects can use the local checkout or an isolated worktree; do not assume every scheduled run creates a worktree.
-- **CLI alternative:** an external scheduler can invoke `codex exec` for a bounded check. The CLI supports JSONL output and resuming a specific session with `codex exec resume <SESSION_ID>`. It loads the user's Codex configuration and uses the selected provider's authentication; that does not establish authentication to external services.
-- **Goal, skill, and schedule are different:** a goal preserves the objective, a skill supplies instructions, and a scheduler triggers future execution. An active goal, a saved state file, or a promise to monitor is not evidence that a schedule is installed. Azure DevOps auto-complete can merge independently, but does not wake Codex to inspect replies or send a completion message.
+- **Goal, skill, and schedule are different:** native goals can continue automatically; a skill supplies instructions; a native schedule supplies a configured time trigger. A saved file or a promise is not execution evidence. Azure DevOps auto-complete does not wake Codex.
 
 ## Choose the mechanism from the actual environment
 
-For a conversation-specific follow-up, prefer a supported schedule attached to the existing chat when available. For independent checks, use a standalone task. Use Windows Task Scheduler, cron, or launchd with `codex exec` when the task requires that operational model or native scheduling is unavailable.
+For ongoing project progress, inspect the current goal and use its native automatic continuation.
+Create a goal only when the user requests goal pursuit, and preserve the current thread, model,
+permissions and workspace. If the user requests a fixed cadence, discover a supported native
+schedule attached to this chat. Neither mode authorizes another Codex agent or terminal.
 
-Inspect the current tool catalog and supported app controls before creating a schedule. Do not invent a scheduling tool or assume a community example's tool name or parameter schema is supported here. No scheduling tool in the current turn means that tool is unavailable to this session; it does not prove the app lacks scheduling. Explain the verified boundary and inspect a supported UI or external scheduler when setup is requested.
+Inspect the current tools and supported app controls before creating a schedule. No exposed
+scheduling tool means that control is unavailable here, not that Codex lacks the feature.
+Report that boundary and continue authorized current-thread work. Never compensate with
+`codex exec`, `codex exec resume`, Task Scheduler, cron, launchd, a polling/queue wrapper,
+or a forked/standalone agent. Do not queue self-prompts to simulate the native scanner.
 
-Use current official documentation or available tool schemas for exact creation/update commands. Do not edit undocumented automation databases or install a community monitor merely because its pattern looks useful. Prefer a specific CLI session ID over `--last` when other conversations may run concurrently.
+Use official documentation or available schemas for exact controls. Do not edit runtime
+databases or install community monitors. A feature flag and active goal prove configuration;
+verify an observed automatic round before claiming execution. Keep fixed-cadence scheduling
+separate from native Goal continuation.
 
-## CLI configuration and provider authentication
+## Preserve the current environment
 
-`codex exec` reads `$CODEX_HOME/config.toml`, defaulting to `~/.codex/config.toml`, with supported configuration layers and command-line overrides. Verify the scheduled account's home, `CODEX_HOME`, selected profile and provider using non-secret metadata. Preserve the user's configured model, provider and authentication unless the task authorizes a change.
-
-Do not make `codex login status` a universal prerequisite. A custom provider can authenticate through an environment variable or a credential helper, or require no authentication, while that command reports `Not logged in`. Require OpenAI sign-in only when the selected provider actually uses OpenAI authentication.
-
-Verify provider access through a bounded `codex exec` run in the actual scheduler environment. Diagnose its real failure before requesting sign-in; a missing OpenAI login alone does not prove the configured provider is inaccessible. Keep credentials and raw credential-helper output private. See [official configuration and authentication sources](references/sources-and-examples.md#official-cli-configuration-and-provider-authentication).
+Reuse the current provider, model, account and tool connections. Do not start a separate
+agent to test authentication. A custom provider may work without OpenAI sign-in; inspect
+actual tool failures rather than treating `codex login status` as a universal prerequisite.
+Native continuation does not establish access to an external service: verify the relevant
+service/account through the current tools and keep credential material out of task records.
 
 ## When the user requests unattended setup
 
@@ -43,18 +57,21 @@ Authorization and scope come from the user, not this knowledge skill. A request 
 
 Make the recurrence concrete: target PR or service, sources to inspect, allowed actions, cadence, timezone, stop condition or pursuit window, and notification destination. Reuse settled preferences. Ask only for a material missing choice. For a stated away/asleep window, apply the `$goal-loop-runner` unattended protocol.
 
-Before claiming the monitor is active:
+Before claiming automatic follow-up is working:
 
 1. Inspect the live target and run the proposed check once with the intended account and tools.
-2. Create or update one schedule, checking for an existing matching task to avoid duplicates. Record its identifier, enabled state, cadence, next run, execution environment, state path, and stop rule.
-3. Verify a run launched by the scheduler, using Run Now or the first scheduled execution. A manual chat check or a saved task definition alone does not prove unattended execution works.
+2. Preserve the native Goal, or create/update one supported same-chat schedule after checking for duplicates. Record thread/goal status or the actual schedule identifier, configured cadence/next run when exposed, environment, state path and stop rule.
+3. Verify an actual automatic round in this thread, or a native scheduled run through Run Now/its first execution. A manual check or a saved definition alone does not prove unattended execution works. Do not queue a synthetic turn and label it scanner evidence.
 4. Verify the real effects and saved evidence. Record a failed connection or authentication attempt as an operational failure, never as "no new replies" or "nothing changed."
 
 For repeated external actions, retain the last inspected revision/message, sent-message identifiers, and timestamps. Prevent overlapping jobs against the same mutable target with a lease and bounded runtime. Only notify again for new information or an appropriate reminder interval. A pending human review normally ends the current job as waiting; a separately authorized schedule can inspect it again until its stop condition. Preserve the host's goal-blocking rules rather than treating repeated polling as completed progress.
 
 For local browser workflows, verify the scheduler-launched run can connect to the intended Playwright Extension instance and authenticated profile. Keep the required browser session available. Native cloud scheduling or a CLI login does not establish access to a local Teams/Outlook browser session. Follow the user's browser-tool choice and verify recipients before sending messages.
 
-On success, verify the final state, perform any already-authorized completion notification once, and disable the schedule. At the configured end, stop launching runs and report unfinished gates. Do not claim continued monitoring without a verified active scheduler and a working environment.
+On success, verify the final state, perform any already-authorized notification once, and
+complete the goal or disable the native schedule as appropriate. Respect the host's stop,
+budget and repeated-blocker rules; never keep a blocked goal artificially active to poll.
+Report unverified automatic execution separately from verified configuration.
 
 ## Evolution Contract
 

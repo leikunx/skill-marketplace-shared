@@ -1,6 +1,6 @@
 ---
 name: goal-loop-runner-endless
-description: "Run an explicitly requested continuous goal pursuit with verified scheduled follow-ups, retaining evidence gates and iterating on quality after the first deliverable passes. Use for endless improvement or an authorised unattended work window."
+description: "Run explicitly requested continuous goal pursuit in the same Codex chat, defaulting to native Goal automatic continuation without another continuation agent, terminal, or external scheduler. Retain evidence gates and improve quality within the authorized window."
 ---
 
 # Goal Loop Runner Endless
@@ -54,15 +54,19 @@ task still includes the continuing window.
 
 Apply the scheduling companion rather than promising to keep working:
 
-1. Discover supported existing-chat schedules, app controls or an external CLI scheduler.
-   Check for a matching active schedule before creating one.
-2. Install one schedule within the user's authority. Persist its identifier, actual
-   command/definition, execution environment, shared state, cadence, deadline or stop
-   rule, per-job timeout, logs and notification destination.
+1. Default to the current thread's native Goal automatic continuation and host interval
+   defaults. Discover a supported same-chat native schedule only when a fixed cadence
+   is needed; check for an existing match before creating one. Never launch another
+   agent/session, extra terminal or external CLI scheduler for continuation. Missing
+   native controls are a limitation to report; preserve separately authorized validation rules.
+2. Preserve the active native Goal, or configure one same-chat schedule within the
+   user's authority. Persist the thread/goal or real schedule identifier, environment,
+   shared state, configured cadence when available, deadline/stop rule, per-round timeout,
+   logs and notification destination. Do not invent a scanner cadence or schedule ID.
 3. Use an exclusive lease or process lock for mutable targets. Record the owner and
    expiry; reclaim stale ownership only after confirming the process and external
    operation are inactive. Coordinate foreground turns and scheduled jobs too.
-4. Verify an actual scheduler-launched job, including required files, tools, browser
+4. Verify an actual automatic round or native scheduled job, including required files, tools, browser
    profile, signed-in account and final evidence. A manual probe, saved definition,
    CLI login or running process does not prove the intended work can execute.
 5. Distinguish scheduler health, tool access, account authentication and task progress.
@@ -96,7 +100,8 @@ messages, payments, identity changes or unrelated edits.
 
 “Perfect” is an aspiration, not proof. When no evidenced improvement is available,
 leave the accepted baseline intact, record that the current job is waiting, and let the
-verified schedule recheck at its cadence. Do not fabricate findings, repeat unchanged
+native Goal continuation or verified same-chat schedule provide the next check within
+the host's lifecycle rules. Do not fabricate findings, repeat unchanged
 failures, add unnecessary tests, generate cosmetic churn or spam notifications to
 appear continuously busy. Do not declare perfection from self-assessment.
 

@@ -1,72 +1,66 @@
-# Sources and examples
+# Native continuation sources and examples
 
-Last verified: **2026-09-18**. These sources establish documented capabilities and published patterns. They do not prove that a particular user's installation exposes scheduling tools or that a browser integration works unattended.
+Verified against official documentation on **2026-10-26**. These sources establish
+product capabilities, not a particular session's access or an executed automatic round.
 
-## Official scheduled tasks documentation
+## Native Goal automatic continuation
 
-https://learn.chatgpt.com/docs/automations?surface=app
+- [Configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference):
+  `features.goals` enables "persisted goals and automatic continuation" and is stable/on by default.
+- [Long-running work](https://learn.chatgpt.com/docs/long-running-work): `/goal` starts
+  Goal mode in the app, CLI and IDE; steer related work in the same chat/session.
 
-This was the fetched destination of the official Codex automations search result. Relevant section: **Schedule a task inside a chat**.
+For explicitly requested goal pursuit, use the current thread's available goal tools
+or supported `/goal` control. Read the existing goal before creating one; preserve an
+unfinished goal. Record the thread, objective, active state, constraints and acceptance
+gate. Keep the host continuation/interval scanner at its default. No fixed scan interval
+is established by these documents, so do not invent one or promise an exact next-run time.
+
+`codex features list` can inspect installed feature availability without starting an
+agent turn. An enabled feature and active goal are configuration evidence. Record an
+actual host-triggered continuation before claiming automatic execution was verified.
+Do not send a synthetic queued prompt and call it scanner evidence.
+
+## Native scheduled tasks in this chat
+
+[Scheduled tasks](https://learn.chatgpt.com/docs/automations?surface=app), section
+**Schedule a task inside a chat**:
 
 > Scheduled tasks in a chat can use minute-based intervals for active follow-up loops
 
-The page explains that an existing-chat schedule returns to the same chat with its context. Its examples include checking a long-running operation until it finishes and continuing a PR review loop. Standalone schedules start separate chats. Local project tasks require the computer and desktop app to stay running; Git execution can use a local project or a worktree.
+This mode returns to the same chat and its context. Use it when the user needs a fixed
+cadence and this installation exposes supported controls. Verify their real schema,
+thread target, deadline/stop condition and an actual run. Local project work requires
+the machine, app and workspace to remain available. A feature flag alone does not
+establish access to the schedule-management interface or connected tools.
 
-Use this page for current setup/UI guidance. Its support for scheduling does not prove any particular MCP connection, browser profile, messaging permission, account entitlement, or installed tool schema.
+Continuation excludes standalone chats, secondary agents, extra terminals, external CLI
+schedulers and polling/queue wrappers. Preserve separately authorized validation rules.
+If native continuation or same-chat scheduling is unavailable,
+report that boundary and continue only the authorized work possible in the current
+thread. Do not install a fallback or edit runtime databases.
 
-## Official non-interactive CLI documentation
-
-https://learn.chatgpt.com/docs/non-interactive-mode
-
-Relevant sections: **When to use codex exec**, **Make output machine-readable**, **Authenticate in automation**, and **Resume a non-interactive session**.
-
-Verified command shapes:
-
-```text
-codex exec "Perform one bounded status check and record the result"
-codex exec --json "Perform one bounded status check"
-codex exec resume <SESSION_ID> "Recheck the target and continue from verified state"
-```
-
-These are invocation examples, not schedules. An external scheduler must trigger them. Choose permissions and authentication for the requested workflow using current CLI documentation; do not copy broad-access flags from a community example without a task-specific reason.
-
-For Windows, Task Scheduler can launch a wrapper containing the chosen command, timeout, non-overlap handling, and log capture. Verify browser access under the actual scheduled account/session before relying on this approach for Playwright Extension.
-
-## Official CLI configuration and provider authentication
-
-Verified: **2026-10-04**.
-
-- [Advanced configuration](https://learn.chatgpt.com/docs/config-file/config-advanced#config-and-state-locations): `CODEX_HOME` defaults to `~/.codex`; `config.toml` contains user configuration. Profiles and CLI overrides can change effective settings.
-- [Authentication](https://learn.chatgpt.com/docs/auth#alternative-model-providers): custom providers can use OpenAI authentication, an environment variable or their own authentication arrangement. `requires_openai_auth = true` selects OpenAI authentication; without it, an OpenAI login is not a universal requirement.
-- [Configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference): provider authentication supports a command-backed credential helper; `requires_openai_auth` defaults to false for custom providers.
-
-Check configuration and provider access under the actual scheduled account. A wrapper that exits solely because `codex login status` returns `Not logged in` can prevent a correctly configured custom provider from running. Preserve the user's provider settings and let a bounded `codex exec` attempt establish whether that provider is accessible, without exposing credentials or helper output.
-
-## Community patterns inspected
-
-These repositories were read, not installed or independently tested. Their instructions are examples, not authoritative Codex schemas or permission grants.
-
-- [thinkingjimmy/codex-reset-watchdog](https://github.com/thinkingjimmy/codex-reset-watchdog): a skill plus hourly project automation with a one-shot checker, baseline state, duplicate suppression, dry-run, and Run Now verification. Its exact automation tool fields are implementation/version dependent.
-- [jimprosser scheduling guide](https://github.com/jimprosser/claude-code-to-codex/blob/main/sections/04-automation.md): describes `codex exec` with cron, launchd, or Windows Task Scheduler and separate state/log files. Some app/model statements predate the current official documentation; use the scheduler pattern and verify current details.
-- [PR Review Reminder template](https://github.com/onurkanbakirci/awesome-codex-automations/blob/main/automations/pr-review-reminder/README.md): identifies ready PRs awaiting review for over 48 hours. This is a report-oriented prompt, not a complete Azure DevOps/Teams/Outlook integration.
-
-## Example: bounded PR follow-up
-
-Adapt the cadence and end time to the user's request; these example values are not defaults or existing authorization.
+## Example: continue a PR review in the current thread
 
 ```text
-Every 10 minutes until the agreed end time, perform one bounded follow-up for
-the specified PR using the existing chat context and shared state file.
+Continue this PR task in the same Codex chat using native Goal automatic continuation
+at the host's default interval. Do not launch another Codex agent/session, terminal,
+standalone task, or external scheduler for continuation. Preserve our branch, tools,
+permissions and separately authorized validation rules.
 
-Inspect the live PR status, required reviewer votes, builds, review comments,
-and the explicitly authorized reviewer conversations using the chosen tools.
-Handle actionable feedback within the established scope. If only human review
-or a running build remains, record waiting and let the next scheduled job check.
-Do not send duplicate reminders, bypass policies, or overlap another active run.
+On each automatic round, read the durable state and full requirements ledger, then
+inspect the current PR, build and authorized feedback sources. Handle actionable
+feedback within scope, verify actual effects, and save the next step. Report only
+material changes; preserve message IDs and commit IDs to avoid duplicate actions.
 
-Only after verifying that the PR is completed, send the authorized reply in the
-original requester's conversation, verify it was sent, and disable this schedule.
-At the end time, stop and report any remaining gates.
+Keep the goal active while authorized work remains and the host permits continuation.
+When only an external prerequisite remains, record waiting and follow the host's
+repeated-blocker rule. Do not keep resetting the goal or fabricate progress to poll.
+Complete the goal when its agreed acceptance gate passes. Respect any user stop,
+configured window or budget, and do not create a schedule merely by reading this example.
 ```
 
-The task state should distinguish: schedule enabled, next run due, last actual run, target state, last verified message, current lease, and completion notification sent. This makes both missed runs and duplicate actions detectable without claiming that a prompt alone provides persistent monitoring.
+For an explicitly requested fixed cadence, substitute a supported native schedule
+attached to this same chat, and record its actual cadence, deadline and stop condition.
+Track goal status, schedule status when applicable, last observed automatic round,
+last inspected revisions/messages, and verified external effects separately.

@@ -1,7 +1,7 @@
 interface:
   display_name: "Goal Loop Runner"
-  short_description: "Durable goals with efficient recovery after compaction"
-  default_prompt: "Use $goal-loop-runner to pursue this goal, preserve every user requirement and a durable recovery checkpoint, restore decisions and evidence after compaction, reconcile uncertain external actions, and verify all binding requirements before completion."
+  short_description: "Same-chat goals with native automatic continuation"
+  default_prompt: "Use $goal-loop-runner to advance this goal in the current chat with native automatic continuation and host defaults, without a separate continuation agent or terminal; preserve requirements, recovery state and separately authorized validation rules, and verify the outcome."
 
 policy:
   allow_implicit_invocation: false

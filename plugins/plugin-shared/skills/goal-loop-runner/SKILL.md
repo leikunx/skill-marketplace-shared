@@ -1,15 +1,25 @@
 ---
 name: goal-loop-runner
-description: "Run a long-horizon task as a goal-driven, stateful, evidence-gated iteration loop. Use for Goal mode, 'continue until done', scheduled follow-ups, recurring or unattended pursuit windows, or fuzzy voice-transcribed requests that need a reviewable goal contract."
+description: "Pursue long-running work with durable requirements and evidence gates. For goal continuation, use the current Codex chat/agent and native Goal automatic continuation with host defaults; never launch a separate agent, terminal, or external scheduler. Use for Goal mode, continued project progress, or authorized follow-ups."
 ---
 
 # Goal Loop Runner
 
 Preserve the user's objective; each iteration produces evidence and a useful next decision.
 
-Inspection/explanation/editing of this skill starts no underlying Goal, ledger, loop
-or schedule. Invoke as `$goal-loop-runner`; this skill adds no native `/loop`, daemon
-or timer. Recurrence needs a separately authorized, verified scheduler.
+## Goal continuation
+
+- For goal progress and interval follow-ups, use the current Codex chat/agent.
+  Default to native Goal automatic continuation (the host interval scanner) with its defaults.
+  Do not launch another Codex agent/session, fork, standalone scheduled chat, extra terminal,
+  or external `codex exec`/scheduler/polling wrapper. Missing native controls are a limitation
+  to report, not permission to use that fallback. Do not invent a fixed scanner interval.
+  This applies to continuation workflows; preserve separately authorized validation rules.
+
+Inspection/explanation/editing alone starts no Goal or monitor. A request to also
+advance a project authorizes that stated work in this chat. Verify native capability
+and goal status; do not invent a scanner interval, promise a fixed cadence, or treat
+a saved goal as proof of a completed automatic round. See [continuation](references/scheduling.md).
 
 ## Establish the contract
 

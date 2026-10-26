@@ -1,5 +1,26 @@
 # Evolution Log
 
+## 2026-10-26: Keep native continuation in the current chat
+
+- Trigger: an explicit user preference rejects opening another Codex agent to pursue
+  a goal and requests native continuation/interval scanning as the default.
+- Change: remove external CLI scheduler, standalone-chat and secondary-agent recipes
+  from the goal runner and its linked scheduling skills/references; record the boundary
+  in skill descriptions and existing UI metadata. Default to native Goal continuation
+  with host defaults, using a supported same-chat schedule only for a requested cadence.
+- Evidence: official configuration documentation describes `features.goals` as persisted
+  goals and automatic continuation, on by default; official long-running-work guidance
+  keeps a goal in its current chat; scheduled-task docs support minute-based same-chat
+  schedules. These sources establish no exact scanner interval or session-specific run.
+- Validation: validate all three affected skills, local links, JSON/YAML and exact diff;
+  reject remaining affirmative recipes for separate agents or external schedulers.
+- Scope: shared goal-loop-runner, goal-loop-runner-endless and codex-scheduled-followups;
+  task/runtime details remain private. Preserve explicit-only invocation and host lifecycle rules.
+  The user's follow-up explicitly adds extra terminals to the continuation prohibition
+  and preserves separately authorized validation rules; record both in the portable skill.
+- Rollback: correct capability claims if current official guidance or runtime evidence
+  differs; preserve the user-established prohibition unless the user changes it.
+
 ## 2026-10-05: Reduce entrypoint context through conditional references
 
 - Trigger: the user requested optimization after discussing a roughly 9 KB entrypoint.
