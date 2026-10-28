@@ -12,6 +12,11 @@ requested discussion phase.
 
 ## Discuss the solution
 
+Before answering, ask the user one or more clarifying questions. Use their
+answers to guide follow-up questions, and keep asking until you are at least
+95% confident that you understand their actual needs and goals. Only then
+present the final proposed solution.
+
 Proactively suggest relevant best practices and practical solution options. When
 meaningful alternatives exist, explain their tradeoffs, identify your recommended
 option and why, and invite the user to choose or refine it. When one approach
