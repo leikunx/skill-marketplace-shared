@@ -41,8 +41,14 @@ before the first update: six-element review, labeled assumptions, one repair and
 narrow question if needed. Defer Goal creation/substantive action until resolved.
 Infer routine details; informal wording alone is not uncertainty. Save confirmed corrections.
 
-Use user-named state/ledger paths; otherwise `.codex/goals/<goal-slug>/STATE.md` and
-`REQUIREMENTS.md` beside it, unless project instructions specify canonical storage.
+Use user-named state/ledger paths or project-mandated canonical storage. Otherwise,
+create `<opened-workspace>/.codex/goals/<goal-slug>/STATE.md` with `REQUIREMENTS.md`
+beside it. The user's preference is to keep local goal folders under the folder
+opened in Codex, not the user profile or `CODEX_HOME`. Resolve and record that
+workspace root at goal setup; later shell-directory changes or isolated worktrees
+do not relocate it. If canonical private memory is unavailable, keep the local
+fallback under this same opened workspace. If the opened folder cannot be resolved,
+ask for its location instead of silently choosing user-level storage.
 Never reuse another objective's records. At setup read [recovery](references/recovery-protocol.md);
 use the [state](references/state-template.md) and [requirements](references/requirements-template.md)
 templates when creating records. Save the six contract parts, review decision

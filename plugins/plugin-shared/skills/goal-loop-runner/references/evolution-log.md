@@ -1,5 +1,20 @@
 # Evolution Log
 
+## 2026-11-05: Keep local goal folders in the opened workspace
+
+- Trigger/evidence: the user explicitly requested that goal folders live under
+  the folder opened in Codex instead of a user-level directory.
+- Change: anchor default and local-fallback records at
+  `<opened-workspace>/.codex/goals/<goal-slug>/`; record the root before changing
+  directories or creating worktrees. Preserve explicit paths and mandated canonical storage.
+- Validation: skill schema, local links and exact diff review. Check that a later
+  worktree/cwd change preserves the recorded root and an unavailable root prompts
+  for its location rather than defaulting to the user profile.
+- Scope: goal-loop-runner storage guidance and plugin version 0.1.27. Account caches,
+  canonical private memory and existing goal records are not implicitly moved.
+- Rollback: change this preference only on a later user instruction; preserve
+  discoverable recovery paths when relocating an existing goal.
+
 ## 2026-10-26: Move global guidance into conditional skill references
 
 - Trigger: the user requested an empty machine-global AGENTS.md and portable skill
