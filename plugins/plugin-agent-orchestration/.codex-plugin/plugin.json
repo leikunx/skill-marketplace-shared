@@ -1,0 +1,18 @@
+{
+  "name": "plugin-agent-orchestration",
+  "version": "0.1.0",
+  "description": "Source-backed knowledge of Orca and Multica agent orchestration, execution, completion, and recovery.",
+  "author": {
+    "name": "Kun Lei"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Orchestration",
+    "shortDescription": "How Orca and Multica coordinate agent work.",
+    "longDescription": "Two explicit-only knowledge skills covering Orca supervised workers and Multica issue-driven agent teams, with architecture, lifecycle, troubleshooting, and primary sources.",
+    "developerName": "Kun Lei",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Explain how Orca or Multica coordinates agents and verifies completion."
+  }
+}
