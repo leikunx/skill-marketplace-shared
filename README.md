@@ -37,6 +37,13 @@ Invoke them as `$plugin-shared:goal-loop-runner` and `$plugin-shared:codex-sched
 
 Each skill links to detailed lifecycle guidance and primary sources pinned to the inspected revisions. Loading them does not launch agents or schedules.
 
+Both skills and all their references are available in English and Simplified Chinese. English uses `SKILL.md`, `lifecycle.md`, and `sources.md`; Chinese uses the matching `.zh-CN.md` files. Language links connect each pair, and both languages use the same skill invocation.
+
+| Skill | English | 简体中文 |
+| --- | --- | --- |
+| Orca orchestration | [English](plugins/plugin-agent-orchestration/skills/knowledge-orca-orchestration/SKILL.md) | [简体中文](plugins/plugin-agent-orchestration/skills/knowledge-orca-orchestration/SKILL.zh-CN.md) |
+| Multica orchestration | [English](plugins/plugin-agent-orchestration/skills/knowledge-multica-orchestration/SKILL.md) | [简体中文](plugins/plugin-agent-orchestration/skills/knowledge-multica-orchestration/SKILL.zh-CN.md) |
+
 ## Install and update
 
 Register the Git marketplace and install its plugin:

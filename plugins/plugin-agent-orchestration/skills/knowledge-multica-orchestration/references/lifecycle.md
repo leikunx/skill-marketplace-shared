@@ -1,5 +1,7 @@
 # Multica: issue-driven execution and coordination
 
+**English** | [简体中文](lifecycle.zh-CN.md)
+
 Read for architecture, delegation design, completion, and diagnosis.
 Source IDs resolve in [sources.md](sources.md). Baseline: 2026-11-17.
 

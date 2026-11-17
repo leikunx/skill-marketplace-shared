@@ -1,5 +1,7 @@
 # Multica source map
 
+**English** | [简体中文](sources.zh-CN.md)
+
 Checked **2026-11-17** using browser-rendered official pages and a shallow Git
 checkout. Search results were discovery aids. Source revision:
 `670082cffe0b6c25ea36d62fb31939adbd2d5e93`.

@@ -1,5 +1,7 @@
 # Orca: from objective to settled worker results
 
+**English** | [简体中文](lifecycle.zh-CN.md)
+
 Read for architecture, operating-model comparisons, and failure diagnosis.
 Source IDs resolve in [sources.md](sources.md). Baseline: 2026-11-17.
 

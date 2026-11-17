@@ -1,5 +1,7 @@
 # Orca source map
 
+**English** | [简体中文](sources.zh-CN.md)
+
 Checked **2026-11-17** using browser-rendered official pages and a shallow Git
 checkout. Web search was used for discovery; search summaries and third-party
 tutorials are not the authority for lifecycle behavior. Source revision:

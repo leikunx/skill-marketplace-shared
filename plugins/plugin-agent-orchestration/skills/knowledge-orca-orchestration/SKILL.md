@@ -5,6 +5,11 @@ description: Explain, compare, or diagnose Stably Orca ADE agent orchestration u
 
 # Orca orchestration knowledge
 
+**English** | [简体中文](SKILL.zh-CN.md)
+
+For Chinese-language requests, read the Chinese version and its references.
+Both versions share the same skill identity and invocation.
+
 This skill covers **Stably's Orca ADE**, at [orca.dev](https://orca.dev/) and
 [stablyai/orca](https://github.com/stablyai/orca). Check that identity when a
 request says only "Orca"; other projects share the name.

@@ -5,6 +5,11 @@ description: Explain, compare, or diagnose Multica agent orchestration through i
 
 # Multica orchestration knowledge
 
+**English** | [简体中文](SKILL.zh-CN.md)
+
+For Chinese-language requests, read the Chinese version and its references.
+Both versions share the same skill identity and invocation.
+
 This skill covers [multica.ai](https://multica.ai/) and
 [multica-ai/multica](https://github.com/multica-ai/multica), the source-available
 workspace for human and coding-agent teams.
